@@ -18,12 +18,12 @@ export class CartService {
     if (cartItem) return;
 
     this.cart.items.push(new CartItem(food));
-    this.setCartToLocalStorage();
+    this.updateCart();
   }
 
   removeFromCart(foodId: string): void {
     this.cart.items = this.cart.items.filter((item) => item.food.id != foodId);
-    this.setCartToLocalStorage();
+    this.updateCart();
   }
 
   changeQuantity(foodId: string, quantity: number) {
@@ -33,16 +33,30 @@ export class CartService {
     }
     cartItem.quantity = quantity;
     cartItem.price = quantity * cartItem.food.price;
-    this.setCartToLocalStorage();
+    this.updateCart();
   }
 
-  clearCart() {
+  clearCart(): void {
     this.cart = new Cart();
-    this.setCartToLocalStorage();
+    this.updateCart();
   }
 
   getCartObservable(): Observable<Cart> {
     return this.cartSubject.asObservable();
+  }
+
+  private updateCart(): void {
+    this.cart.totalPrice = this.cart.items.reduce(
+      (prevSum, currentItem) => prevSum + currentItem.price,
+      0
+    );
+    this.cart.totalCount = this.cart.items.reduce(
+      (prevSum, currentItem) => prevSum + currentItem.quantity,
+      0
+    );
+
+    this.setCartToLocalStorage();
+    this.cartSubject.next(this.cart);
   }
 
   private setCartToLocalStorage(): void {
