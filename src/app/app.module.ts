@@ -14,11 +14,32 @@ import { FoodPageComponent } from './components/pages/food-page/food-page.compon
 import { CartPageComponent } from './components/pages/cart-page/cart-page.component';
 import { TitleComponent } from './components/partials/title/title.component';
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, HomeComponent, SearchComponent, TagsComponent, FoodPageComponent, CartPageComponent, TitleComponent, NotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [provideClientHydration()],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    HomeComponent,
+    SearchComponent,
+    TagsComponent,
+    FoodPageComponent,
+    CartPageComponent,
+    TitleComponent,
+    NotFoundComponent,
+    LoginPageComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
