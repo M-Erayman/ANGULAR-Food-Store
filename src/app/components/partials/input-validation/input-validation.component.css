@@ -1,0 +1,10 @@
+.errorList {
+  color: red;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.errorMessage {
+  color: red;
+  font-weight: bold;
+}
